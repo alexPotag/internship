@@ -53,8 +53,6 @@ public class Main {
 	public static int isExist(String urlString) throws MalformedURLException, IOException {
 		URL url = new URL(urlString); // создается url на основе строки
 	    HttpURLConnection huc =  (HttpURLConnection)url.openConnection(); // установка соединения
-	    huc.setRequestMethod("GET"); 
-	    huc.connect(); 
 	    return huc.getResponseCode(); // непосредственно определение 
 	}
 }
