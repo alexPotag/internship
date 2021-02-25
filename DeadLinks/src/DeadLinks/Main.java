@@ -12,49 +12,49 @@ import java.util.regex.Pattern;
 
 public class Main {
 	public static void main(String[] args) throws MalformedURLException, IOException {
-		//на вход поступает ссылка
+		//Г­Г  ГўГµГ®Г¤ ГЇГ®Г±ГІГіГЇГ ГҐГІ Г±Г±Г»Г«ГЄГ 
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Вставьте ссылку");
+		System.out.println("Г‚Г±ГІГ ГўГјГІГҐ Г±Г±Г»Г«ГЄГі");
 		String url = scanner.nextLine();
-		//https://stud.lms.tpu.ru/login/index.php пример ссылки
-		deadLinks(url); //вызов метода
+		//https://stud.lms.tpu.ru/login/index.php ГЇГ°ГЁГ¬ГҐГ° Г±Г±Г»Г«ГЄГЁ
+		deadLinks(url); //ГўГ»Г§Г®Гў Г¬ГҐГІГ®Г¤Г 
 		scanner.close();
 	}
-	// метод, собирающий все битые ссылки вместе в одну строку
+	// Г¬ГҐГІГ®Г¤, Г±Г®ГЎГЁГ°Г ГѕГ№ГЁГ© ГўГ±ГҐ ГЎГЁГІГ»ГҐ Г±Г±Г»Г«ГЄГЁ ГўГ¬ГҐГ±ГІГҐ Гў Г®Г¤Г­Гі Г±ГІГ°Г®ГЄГі 
 	public static void deadLinks(String urlOfSite) throws IOException {
-		//чтение html-кода сайта
+		//Г·ГІГҐГ­ГЁГҐ html-ГЄГ®Г¤Г  Г±Г Г©ГІГ 
 		URL url = new URL(urlOfSite);
         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
         
-        String deadLinks = "";//здесь все ссылки
+        String deadLinks = "";//Г§Г¤ГҐГ±Гј ГўГ±ГҐ Г±Г±Г»Г«ГЄГЁ
         
         String inputLine;
         Matcher matcher;
-        Pattern pattern = Pattern.compile("(?<=(?i)href\\s{0,1}=\\s{0,1}\").*?(?=\")");//регулярное выражение для выявления ссылки
-        while ((inputLine = in.readLine()) != null) {//проходим по всей странице
+        Pattern pattern = Pattern.compile("(?<=(?i)href\\s{0,1}=\\s{0,1}\").*?(?=\")");//Г°ГҐГЈГіГ«ГїГ°Г­Г®ГҐ ГўГ»Г°Г Г¦ГҐГ­ГЁГҐ Г¤Г«Гї ГўГ»ГїГўГ«ГҐГ­ГЁГї Г±Г±Г»Г«ГЄГЁ
+        while ((inputLine = in.readLine()) != null) {//ГЇГ°Г®ГµГ®Г¤ГЁГ¬ ГЇГ® ГўГ±ГҐГ© Г±ГІГ°Г Г­ГЁГ¶ГҐ
         	matcher = pattern.matcher(inputLine);
-            while (matcher.find()) { // пока есть совпадение
-            	String link = inputLine.substring(matcher.start(), matcher.end()); //очередная найденная ссылка
-            	if (link.contains("http") == false) {continue;} //отбрасываем, если не нет подстроки http
-            	if (isExist(link) == 404) {deadLinks += link + "\n";} //определяем, существует ли страница и сохраняем ее, если не сущ-ет
-            	System.out.println(isExist(link) + " " + link); // выводим
+            while (matcher.find()) { // ГЇГ®ГЄГ  ГҐГ±ГІГј Г±Г®ГўГЇГ Г¤ГҐГ­ГЁГҐ
+            	String link = inputLine.substring(matcher.start(), matcher.end()); //Г®Г·ГҐГ°ГҐГ¤Г­Г Гї Г­Г Г©Г¤ГҐГ­Г­Г Гї Г±Г±Г»Г«ГЄГ 
+            	if (link.contains("http") == false) {continue;} //Г®ГІГЎГ°Г Г±Г»ГўГ ГҐГ¬, ГҐГ±Г«ГЁ Г­ГҐ Г­ГҐГІ ГЇГ®Г¤Г±ГІГ°Г®ГЄГЁ http
+            	if (isExist(link) == 404) {deadLinks += link + "\n";} //Г®ГЇГ°ГҐГ¤ГҐГ«ГїГҐГ¬, Г±ГіГ№ГҐГ±ГІГўГіГҐГІ Г«ГЁ Г±ГІГ°Г Г­ГЁГ¶Г  ГЁ Г±Г®ГµГ°Г Г­ГїГҐГ¬ ГҐГҐ, ГҐГ±Г«ГЁ Г­ГҐ Г±ГіГ№-ГҐГІ
+            	System.out.println(isExist(link) + " " + link); // ГўГ»ГўГ®Г¤ГЁГ¬
             }
         }
         in.close();
         
         if (deadLinks == "")
-        	System.out.println("недействительных ссылок не обнаружено");
+        	System.out.println("Г­ГҐГ¤ГҐГ©Г±ГІГўГЁГІГҐГ«ГјГ­Г»Гµ Г±Г±Г»Г«Г®ГЄ Г­ГҐ Г®ГЎГ­Г Г°ГіГ¦ГҐГ­Г®");
         else
-        	System.out.println("\nНедействительные ссылки:");
+        	System.out.println("\nГЌГҐГ¤ГҐГ©Г±ГІГўГЁГІГҐГ«ГјГ­Г»ГҐ Г±Г±Г»Г«ГЄГЁ:");
         	System.out.println(deadLinks);
 	}
 	
-	// метод, который выясняет, существует ли страница
+	// Г¬ГҐГІГ®Г¤, ГЄГ®ГІГ®Г°Г»Г© ГўГ»ГїГ±Г­ГїГҐГІ, Г±ГіГ№ГҐГ±ГІГўГіГҐГІ Г«ГЁ Г±ГІГ°Г Г­ГЁГ¶Г 
 	public static int isExist(String urlString) throws MalformedURLException, IOException {
-		URL url = new URL(urlString); // создается url на основе строки
-	    HttpURLConnection huc =  (HttpURLConnection)url.openConnection(); // установка соединения
+		URL url = new URL(urlString); // Г±Г®Г§Г¤Г ГҐГІГ±Гї url Г­Г  Г®Г±Г­Г®ГўГҐ Г±ГІГ°Г®ГЄГЁ
+	    HttpURLConnection huc =  (HttpURLConnection)url.openConnection(); // ГіГ±ГІГ Г­Г®ГўГЄГ  Г±Г®ГҐГ¤ГЁГ­ГҐГ­ГЁГї
 	    huc.setRequestMethod("GET"); 
 	    huc.connect(); 
-	    return huc.getResponseCode(); // непосредственно определение 
+	    return huc.getResponseCode(); // Г­ГҐГЇГ®Г±Г°ГҐГ¤Г±ГІГўГҐГ­Г­Г® Г®ГЇГ°ГҐГ¤ГҐГ«ГҐГ­ГЁГҐ 
 	}
 }
